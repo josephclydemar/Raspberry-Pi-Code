@@ -22,19 +22,23 @@ def light_control(data):
 
 while not connected:
     try:
-        sio.connect('http://localhost:8900')
-        # sio.connect('https://socketiopractice.onrender.com')
+        # sio.connect('http://localhost:8900')
+        sio.connect('https://thesis-socketio-server.onrender.com')
         print('My ID:', sio.sid)
         connected = True
         # sio.wait()
         while True:
-            image_file = input('Image name: ')
-            with open(image_file, 'rb') as f:
-                content = f.read()
-                print(content)
-                sio.emit('image_capture', base64.b64encode(content))
-                # print(f.read())
-            # sio.emit('message', x)
+            message_type = int(input('Enter message number: '))
+            if message_type == 0:
+                image_file = input('Image name: ')
+                with open(image_file, 'rb') as f:
+                    content = f.read()
+                    print(content)
+                    sio.emit('image_capture', base64.b64encode(content))
+                    # print(f.read())
+            else:
+                text_message = input('Enter ypur message: ')
+                sio.emit('message', text_message)
             
     except Exception as ex:
         print(ex)
