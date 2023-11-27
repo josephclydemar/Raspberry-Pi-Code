@@ -8,14 +8,22 @@ sio = socketio.Client()
 
 connected = False
 
-# @sio.event
-# def message(data):
-#     print(data)
+@sio.event
+def message(data):
+    print('message: ', data)
+
+@sio.event
+def door_control(data):
+    print(data)
+
+@sio.event
+def light_control(data):
+    print(data)
 
 while not connected:
     try:
-        # sio.connect('http://192.168.1.11:8900')
-        sio.connect('https://socketiopractice.onrender.com')
+        sio.connect('http://localhost:8900')
+        # sio.connect('https://socketiopractice.onrender.com')
         print('My ID:', sio.sid)
         connected = True
         # sio.wait()
@@ -24,7 +32,7 @@ while not connected:
             with open(image_file, 'rb') as f:
                 content = f.read()
                 print(content)
-                sio.emit('message', base64.b64encode(content))
+                sio.emit('image_capture', base64.b64encode(content))
                 # print(f.read())
             # sio.emit('message', x)
             
